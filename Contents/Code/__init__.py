@@ -57,7 +57,7 @@ def VideoMainMenu():
     for entry in XML.ElementFromString(feed, True).xpath("//feed/entry"):
       desc = entry.xpath("content")[0].text
       thumb = entry.xpath("mediathumbnail")[0].get('url')
-      link = 'http://www.rte.ie/player/#l=7'#entry.xpath("link[@rel='alternate']")[0].get('href')
+      link = 'http://www.rte.ie/player/#l=7'
 
       dir.Append(WebVideoItem(url=link,title="Live",summary=desc,thumb=thumb))
 
@@ -99,7 +99,6 @@ def RSS_parser(sender, pageurl , replaceParent=False):
       desc = entry.xpath("content")[0].text
       duration = entry.xpath("rteduration")[0].get('ms')
       thumb = entry.xpath("mediathumbnail")[0].get('url')
-      #Log(thumb)
       link = entry.xpath("link[@rel='alternate']")[0].get('href')
 
       dir.Append(WebVideoItem(url=link,title=title,summary=desc,thumb=thumb,duration=duration))
