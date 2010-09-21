@@ -13,7 +13,7 @@ NAME = L('RTE')
 # make sure to replace artwork with what you want
 # these filenames reference the example files in
 # the Contents/Resources/ folder in the bundle
-ART           = 'art-default.png'
+ART           = 'art-default.jpg'
 ICON          = 'icon-default.png'
 
 FEEDBASE = "http://dj.rte.ie/vodfeeds/feedgenerator/"
