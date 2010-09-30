@@ -20,8 +20,6 @@ FEEDBASE = "http://dj.rte.ie/vodfeeds/feedgenerator/"
 MRSS  = {'media':'http://search.yahoo.com/mrss/'}
 RTE   = {'rte':'http://www.rte.ie/schemas/vod'}
 
-CACHE_TIME = 3600
-
 ####################################################################################################
 
 def Start():
@@ -34,19 +32,21 @@ def Start():
     MediaContainer.art = R(ART)
     MediaContainer.title1 = NAME
     DirectoryItem.thumb = R(ICON)
+    HTTP.SetCacheTime(CACHE_1HOUR)
+
 
 def UpdateCache():
-  HTTP.PreCache(FEEDBASE + "videos/live/?id=7", CACHE_TIME)
-  HTTP.PreCache(FEEDBASE + "latest/?limit=20", CACHE_TIME)
-  HTTP.PreCache(FEEDBASE + "lastchance/?limit=20", CACHE_TIME)
-  HTTP.PreCache(FEEDBASE + "genre/?id=Entertainment", CACHE_TIME)
-  HTTP.PreCache(FEEDBASE + "genre/?id=Drama", CACHE_TIME)
-  HTTP.PreCache(FEEDBASE + "genre/?id=News%20and%20Sport", CACHE_TIME)
-  HTTP.PreCache(FEEDBASE + "genre/?id=Factual", CACHE_TIME)
-  HTTP.PreCache(FEEDBASE + "genre/?id=Lifestyle", CACHE_TIME)
-  HTTP.PreCache(FEEDBASE + "genre/?id=Arts%20and%20Music", CACHE_TIME)
-  HTTP.PreCache(FEEDBASE + "genre/?id=Religious%20and%20Irish%20Language", CACHE_TIME)
-  HTTP.PreCache(FEEDBASE + "genre/?id=RT%C3%89jr%2C%20TRT%C3%89%2C%20Two%20Tube", CACHE_TIME)
+  HTTP.PreCache(FEEDBASE + "videos/live/?id=7")
+  HTTP.PreCache(FEEDBASE + "latest/?limit=20")
+  HTTP.PreCache(FEEDBASE + "lastchance/?limit=20")
+  HTTP.PreCache(FEEDBASE + "genre/?id=Entertainment")
+  HTTP.PreCache(FEEDBASE + "genre/?id=Drama")
+  HTTP.PreCache(FEEDBASE + "genre/?id=News%20and%20Sport")
+  HTTP.PreCache(FEEDBASE + "genre/?id=Factual")
+  HTTP.PreCache(FEEDBASE + "genre/?id=Lifestyle")
+  HTTP.PreCache(FEEDBASE + "genre/?id=Arts%20and%20Music")
+  HTTP.PreCache(FEEDBASE + "genre/?id=Religious%20and%20Irish%20Language")
+  HTTP.PreCache(FEEDBASE + "genre/?id=RT%C3%89jr%2C%20TRT%C3%89%2C%20Two%20Tube")
 
 def VideoMainMenu():
 
