@@ -46,7 +46,7 @@ def UpdateCache():
   HTTP.PreCache(FEEDBASE + "genre/?id=Lifestyle", CACHE_TIME)
   HTTP.PreCache(FEEDBASE + "genre/?id=Arts%20and%20Music", CACHE_TIME)
   HTTP.PreCache(FEEDBASE + "genre/?id=Religious%20and%20Irish%20Language", CACHE_TIME)
-  HTTP.PreCache(FEEDBASE + "genre/?id=The%20Den%2C%20Den%20Tots%2C%20Two%20Tube", CACHE_TIME)
+  HTTP.PreCache(FEEDBASE + "genre/?id=RT%C3%89jr%2C%20TRT%C3%89%2C%20Two%20Tube", CACHE_TIME)
 
 def VideoMainMenu():
 
