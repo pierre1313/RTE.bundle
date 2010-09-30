@@ -8,10 +8,10 @@ version="1.0">
 
 <!-- SEEKBAR NEEDS WORK-->
 <seekbar type="simple">
-	<start x="53" y="395" />
-	<end x="351" y="395" />
+	<start x="56" y="395" />
+	<end x="355" y="395" />
 	<played>
-		<color rgb="AF8C48" />
+		<color rgb="B89E49" />
 	</played>
 </seekbar>
 
@@ -42,6 +42,16 @@ version="1.0">
 </event>
 
 <event>
+	<condition>
+		<color x="222" y="310" rgb="151515"/>
+	</condition>
+	<action>
+		<move x="222" y="310" />
+   	    <pause time="100" />
+		<click x="222" y="310" />
+		<goto state="check" />
+	</action>
+
 	<condition>
 		<color x="34" y="395" rgb="838383"/>
 	</condition>

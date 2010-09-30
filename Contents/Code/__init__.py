@@ -47,13 +47,12 @@ def UpdateCache():
   HTTP.PreCache(FEEDBASE + "genre/?id=Arts%20and%20Music", CACHE_TIME)
   HTTP.PreCache(FEEDBASE + "genre/?id=Religious%20and%20Irish%20Language", CACHE_TIME)
   HTTP.PreCache(FEEDBASE + "genre/?id=The%20Den%2C%20Den%20Tots%2C%20Two%20Tube", CACHE_TIME)
-  GetCollectionsMenu(ItemInfoRecord())
 
 def VideoMainMenu():
 
     dir = MediaContainer(viewGroup="List")
     #Live Stream
-    feed = HTTP.Request(FEEDBASE + "videos/live/?id=7").replace('media:','media')
+    feed = (HTTP.Request(FEEDBASE + "videos/live/?id=7")).encode("Latin1").replace('media:','media')
     for entry in XML.ElementFromString(feed, True).xpath("//feed/entry"):
       desc = entry.xpath("content")[0].text
       thumb = entry.xpath("mediathumbnail")[0].get('url')
@@ -77,7 +76,7 @@ def CategoriesSubMenu (sender):
     dir.Append(Function(DirectoryItem(RSS_parser,"Lifestyle"),pageurl = FEEDBASE + "genre/?id=Lifestyle"))
     dir.Append(Function(DirectoryItem(RSS_parser,"Arts and Music"),pageurl = FEEDBASE + "genre/?id=Arts%20and%20Music"))
     dir.Append(Function(DirectoryItem(RSS_parser,"Religious and Irish language"),pageurl = FEEDBASE + "genre/?id=Religious%20and%20Irish%20Language"))
-    dir.Append(Function(DirectoryItem(RSS_parser,"The Den Den Tots Two Tube"),pageurl = FEEDBASE + "genre/?id=The%20Den%2C%20Den%20Tots%2C%20Two%20Tube"))
+    dir.Append(Function(DirectoryItem(RSS_parser,"RTÉjr, TRTÉ, Two Tube"),pageurl = FEEDBASE + "genre/?id=RT%C3%89jr%2C%20TRT%C3%89%2C%20Two%20Tube"))
 
     return dir
 
@@ -92,8 +91,7 @@ def AZSubMenu (sender):
 def RSS_parser(sender, pageurl , replaceParent=False):
     dir = MediaContainer(title2=sender.itemTitle, viewGroup="List", replaceParent=replaceParent)
 
-    feed = HTTP.Request(pageurl).replace('media:','media').replace('rte:','rte')
-
+    feed = (HTTP.Request(pageurl)).encode("Latin1").replace('media:','media').replace('rte:','rte')
     for entry in XML.ElementFromString(feed, True).xpath("//feed/entry"):
       title = entry.xpath("title")[0].text
       desc = entry.xpath("content")[0].text
