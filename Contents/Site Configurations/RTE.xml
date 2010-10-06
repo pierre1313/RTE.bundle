@@ -23,8 +23,8 @@ version="1.0">
 		</condition>
 		<action>
 			<move x="30" y="395" />
-    	    <pause time="1000" />
-			<click x="30" y="395" />
+    	    <pause time="1500" />
+			<click x="30" y="395" />           
 			<goto state="check" />
 		</action>
 	</event>
@@ -34,22 +34,23 @@ version="1.0">
 <state name="check">
 <event>
 	<condition>
-		<color x="38" y="393" rgb="838383"/>
+		<color x="222" y="323" rgb="000000"/>
 	</condition>
 	<action>
-		<goto state="playing" />
+		<move x="222" y="323" />
+   	    <pause time="1000" />
+		<click x="222" y="323" />
+   	    <pause time="100" />        
+		<goto state="check" />
 	</action>
 </event>
 
 <event>
 	<condition>
-		<color x="222" y="310" rgb="151515"/>
-	</condition>
+		<color x="38" y="393" rgb="838383"/>
+    </condition>
 	<action>
-		<move x="222" y="310" />
-   	    <pause time="100" />
-		<click x="222" y="310" />
-		<goto state="check" />
+		<goto state="playing" />
 	</action>
 
 	<condition>
