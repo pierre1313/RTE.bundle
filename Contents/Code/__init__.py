@@ -2,8 +2,6 @@
 
 # PMS plugin framework
 from PMS import *
-from PMS.Objects import *
-from PMS.Shortcuts import *
 import re
 
 ####################################################################################################
@@ -52,7 +50,7 @@ def VideoMainMenu():
 
     dir = MediaContainer(viewGroup="List")
     #Live Stream
-    feed = (HTTP.Request(FEEDBASE + "videos/live/?id=7")).encode("Latin1").replace('media:','media')
+    feed = (HTTP.Request(FEEDBASE + "videos/live/?id=7")).encode("Latin1",'replace').replace('media:','media')
     for entry in XML.ElementFromString(feed, True).xpath("//feed/entry"):
       desc = entry.xpath("content")[0].text
       thumb = entry.xpath("mediathumbnail")[0].get('url')
@@ -67,7 +65,7 @@ def VideoMainMenu():
     return dir
 
 def CategoriesSubMenu (sender):
-    dir = MediaContainer(title2="Live", viewGroup="List")
+    dir = MediaContainer(title2="Categories", viewGroup="List")
 
     dir.Append(Function(DirectoryItem(RSS_parser,"Entertainment"),pageurl = FEEDBASE + "genre/?id=Entertainment"))
     dir.Append(Function(DirectoryItem(RSS_parser,"Drama"),pageurl = FEEDBASE + "genre/?id=Drama"))
@@ -91,7 +89,7 @@ def AZSubMenu (sender):
 def RSS_parser(sender, pageurl , replaceParent=False):
     dir = MediaContainer(title2=sender.itemTitle, viewGroup="List", replaceParent=replaceParent)
 
-    feed = (HTTP.Request(pageurl)).encode("Latin1").replace('media:','media').replace('rte:','rte')
+    feed = (HTTP.Request(pageurl)).encode("Latin1","replace").replace('media:','media').replace('rte:','rte')
     for entry in XML.ElementFromString(feed, True).xpath("//feed/entry"):
       title = entry.xpath("title")[0].text
       desc = entry.xpath("content")[0].text
