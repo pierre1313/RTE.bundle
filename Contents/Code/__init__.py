@@ -18,7 +18,15 @@ FEEDBASE = "http://dj.rte.ie/vodfeeds/feedgenerator/"
 MRSS  = {'media':'http://search.yahoo.com/mrss/'}
 RTE   = {'rte':'http://www.rte.ie/schemas/vod'}
 
+geo_code = ''
+
 ####################################################################################################
+def Geo():
+    country_code = XML.ElementFromURL('http://dj.rte.ie/vodfeeds/feedgenerator/cl/', True).xpath("//geoinfo/country")[0]
+    if country_code.text == "ie":
+      return "#domestic"
+    else:
+      return "#international"
 
 def Start():
 
@@ -31,6 +39,8 @@ def Start():
     MediaContainer.title1 = NAME
     DirectoryItem.thumb = R(ICON)
     HTTP.SetCacheTime(CACHE_1HOUR)
+    global geo_code
+    geo_code=str(Geo())
 
 
 def UpdateCache():
@@ -50,11 +60,11 @@ def VideoMainMenu():
 
     dir = MediaContainer(viewGroup="List")
     #Live Stream
-    feed = (HTTP.Request(FEEDBASE + "videos/live/?id=7")).encode("Latin1",'replace').replace('media:','media')
+    feed = (HTTP.Request(FEEDBASE + "videos/live/?id=7")).encode("Latin1",'ignore').replace('media:','media')
     for entry in XML.ElementFromString(feed, True).xpath("//feed/entry"):
       desc = entry.xpath("content")[0].text
       thumb = entry.xpath("mediathumbnail")[0].get('url')
-      link = 'http://www.rte.ie/player/#l=7'
+      link = 'http://www.rte.ie/player/#l=7' + geo_code
 
       dir.Append(WebVideoItem(url=link,title="Live",summary=desc,thumb=thumb))
 
@@ -89,13 +99,13 @@ def AZSubMenu (sender):
 def RSS_parser(sender, pageurl , replaceParent=False):
     dir = MediaContainer(title2=sender.itemTitle, viewGroup="List", replaceParent=replaceParent)
 
-    feed = (HTTP.Request(pageurl)).encode("Latin1","replace").replace('media:','media').replace('rte:','rte')
+    feed = (HTTP.Request(pageurl)).encode("Latin1","ignore").replace('media:','media').replace('rte:','rte')
     for entry in XML.ElementFromString(feed, True).xpath("//feed/entry"):
       title = entry.xpath("title")[0].text
       desc = entry.xpath("content")[0].text
       duration = entry.xpath("rteduration")[0].get('ms')
       thumb = entry.xpath("mediathumbnail")[0].get('url')
-      link = entry.xpath("link[@rel='alternate']")[0].get('href')
+      link = entry.xpath("link[@rel='alternate']")[0].get('href') + geo_code
 
       dir.Append(WebVideoItem(url=link,title=title,summary=desc,thumb=thumb,duration=duration))
 

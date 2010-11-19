@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<site site="http://www.rte.ie/player"
+<site site="http://www.rte.ie/player.*international"
 plugin="http://www.rte.ie/player/app/RTE_VOD_14.swf"
 initialState="init"
 version="1.0">
 
-<crop x="18" y="97" width="511" height="286" />
+<crop x="18" y="97" width="511" height="287" />
 
 <!-- SEEKBAR NEEDS WORK-->
-<seekbar type="simple">
+<seekbar type="thumb">
 	<start x="56" y="395" />
 	<end x="355" y="395" />
 	<played>
-		<color rgb="B89E49" />
+		<color rgb="FFFFFF" />
 	</played>
 </seekbar>
 
@@ -19,12 +19,12 @@ version="1.0">
 <state name="init">
 	<event>
 		<condition>
-			<color x="34" y="395" rgb="838383"/>
+			<color x="33" y="399" rgb="838383"/>
 		</condition>
 		<action>
-			<move x="30" y="395" />
+			<move x="33" y="399" />
     	    <pause time="1500" />
-			<click x="30" y="395" />           
+			<click x="33" y="399" />           
 			<goto state="check" />
 		</action>
 	</event>
@@ -47,19 +47,19 @@ version="1.0">
 
 <event>
 	<condition>
-		<color x="38" y="393" rgb="838383"/>
+		<color x="37" y="395" rgb="838383"/>
     </condition>
 	<action>
 		<goto state="playing" />
 	</action>
 
 	<condition>
-		<color x="34" y="395" rgb="838383"/>
+		<color x="33" y="399" rgb="838383"/>
 	</condition>
 	<action>
-		<move x="30" y="395" />
+		<move x="33" y="399" />
    	    <pause time="1000" />
-		<click x="30" y="395" />
+		<click x="33" y="399" />
 		<goto state="check" />
 	</action>
 </event>
@@ -72,9 +72,9 @@ version="1.0">
 			<command name="pause" />
 		</condition>
 		<action>
-			<move x="30" y="395" />
+			<move x="33" y="399" />
    	     	<pause time="100" />
-			<click x="30" y="395" />
+			<click x="33" y="399" />
 			<goto state="paused" />
 		</action>
 	</event>
@@ -87,9 +87,9 @@ version="1.0">
 			<command name="play" />
 		</condition>
 		<action>
-        	<move x="30" y="395" />
+        	<move x="33" y="399" />
 	        <pause time="100" />
-			<click x="30" y="395" />
+			<click x="33" y="399" />
 			<goto state="playing" />
 		</action>
 	</event>
