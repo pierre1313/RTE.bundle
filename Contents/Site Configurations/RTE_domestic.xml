@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site site="http://www.rte.ie/player.*domestic"
+plugin="http://www.rte.ie/player/app/RTE_VOD_14.swf"
+initialState="init"
+version="1.0">
+
+<crop x="18" y="90" width="511" height="287" />
+
+<!-- SEEKBAR NEEDS WORK-->
+<seekbar type="thumb">
+	<start x="56" y="387" />
+	<end x="355" y="387" />
+	<played>
+		<color rgb="FFFFFF" />
+	</played>
+</seekbar>
+
+<!-- INIT -->
+<state name="init">
+	<event>
+		<condition>
+			<color x="32" y="390" rgb="838383"/>
+		</condition>
+		<action>
+			<move x="32" y="390" />
+    	    <pause time="1500" />
+			<click x="32" y="390" />
+			<goto state="check" />
+		</action>
+	</event>
+</state>
+
+<!-- CHECK -->
+<state name="check">
+<event>	
+	<action>
+			<move x="241" y="303" />
+   	  		<pause time="1000" />
+			<click x="241" y="303" />
+		<goto state="playing" />
+	</action>
+	<condition>
+		<color x="32" y="390" rgb="838383"/>
+	</condition>
+	<action>
+		<goto state="check" />
+	</action>
+</event>
+</state>
+
+<!-- PLAYING -->
+<state name="playing">
+	<event>
+		<condition>
+			<command name="pause" />
+		</condition>
+		<action>
+			<move x="32" y="390" />
+   	     	<pause time="100" />
+			<click x="32" y="390" />
+			<goto state="paused" />
+		</action>
+	</event>
+</state>
+
+<!-- PAUSED -->
+<state name="paused">
+	<event>
+		<condition>
+			<command name="play" />
+		</condition>
+		<action>
+        	<move x="32" y="390" />
+	        <pause time="100" />
+			<click x="32" y="390" />
+			<goto state="playing" />
+		</action>
+	</event>
+</state>
+
+</site>
