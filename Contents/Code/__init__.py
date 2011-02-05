@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-
-# PMS plugin framework
-from PMS import *
 import re
 
 ####################################################################################################
@@ -10,27 +7,25 @@ VIDEO_PREFIX = "/video/rte"
 
 NAME = L('RTE')
 
-ART           = 'art-default.jpg'
-ICON          = 'icon-default.png'
+ART  = 'art-default.jpg'
+ICON = 'icon-default.png'
 
 FEEDBASE = "http://dj.rte.ie/vodfeeds/feedgenerator/"
+LIVEURL = "http://www.rte.ie/player/#l=7"
 
 MRSS  = {'media':'http://search.yahoo.com/mrss/'}
 RTE   = {'rte':'http://www.rte.ie/schemas/vod'}
 
-geo_code = ''
-
 ####################################################################################################
 def Geo():
-    country_code = XML.ElementFromURL('http://dj.rte.ie/vodfeeds/feedgenerator/cl/', True).xpath("//geoinfo/country")[0]
+    country_code = HTML.ElementFromURL(FEEDBASE+'cl/').xpath("//geoinfo/country")[0]
     if country_code.text == "ie":
       return "#domestic"
     else:
       return "#international"
 
 def Start():
-
-    Plugin.AddPrefixHandler(VIDEO_PREFIX, VideoMainMenu, L('VideoTitle'), ICON, ART)
+    Plugin.AddPrefixHandler(VIDEO_PREFIX, VideoMainMenu, NAME, ICON, ART)
 
     Plugin.AddViewGroup("InfoList", viewMode="InfoList", mediaType="items")
     Plugin.AddViewGroup("List", viewMode="List", mediaType="items")
@@ -38,10 +33,11 @@ def Start():
     MediaContainer.art = R(ART)
     MediaContainer.title1 = NAME
     DirectoryItem.thumb = R(ICON)
-    HTTP.SetCacheTime(CACHE_1HOUR)
-    global geo_code
-    geo_code=str(Geo())
+    WebVideoItem.thumb = R(ICON)
 
+    HTTP.CacheTime = CACHE_1HOUR
+    
+    Dict['geo_code']=str(Geo())
 
 def UpdateCache():
   HTTP.PreCache(FEEDBASE + "videos/live/?id=7")
@@ -60,11 +56,11 @@ def VideoMainMenu():
 
     dir = MediaContainer(viewGroup="List")
     #Live Stream
-    feed = (HTTP.Request(FEEDBASE + "videos/live/?id=7")).encode("Latin1",'ignore').replace('media:','media')
-    for entry in XML.ElementFromString(feed, True).xpath("//feed/entry"):
+    feed = (HTTP.Request(FEEDBASE + "videos/live/?id=7").content).encode("Latin1",'ignore').replace('media:','media')
+    for entry in HTML.ElementFromString(feed).xpath("//feed/entry"):
       desc = entry.xpath("content")[0].text
       thumb = entry.xpath("mediathumbnail")[0].get('url')
-      link = 'http://www.rte.ie/player/#l=7' + geo_code
+      link = LIVEURL + Dict['geo_code']
 
       dir.Append(WebVideoItem(url=link,title="Live",summary=desc,thumb=thumb))
 
@@ -91,21 +87,24 @@ def CategoriesSubMenu (sender):
 def AZSubMenu (sender):
     dir = MediaContainer(title2="A to Z", viewGroup="List")
 
-    for entry in XML.ElementFromURL('http://dj.rte.ie/vodfeeds/feedgenerator/azlist/', True).xpath("//feed/entry"):
+    for entry in HTML.ElementFromURL(FEEDBASE+'azlist/').xpath("//feed/entry"):
+      if entry.xpath("title")[0].text == None:
+        continue
+      else:
         character = entry.xpath("title")[0].text
-        dir.Append(Function(DirectoryItem(RSS_parser,character),pageurl = FEEDBASE + "az/?id="+character))
+      dir.Append(Function(DirectoryItem(RSS_parser,character),pageurl = FEEDBASE + "az/?id="+character))
     return dir
 
 def RSS_parser(sender, pageurl , replaceParent=False):
-    dir = MediaContainer(title2=sender.itemTitle, viewGroup="List", replaceParent=replaceParent)
+    dir = MediaContainer(title2=sender.itemTitle, viewGroup="InfoList", replaceParent=replaceParent)
 
-    feed = (HTTP.Request(pageurl)).encode("Latin1","ignore").replace('media:','media').replace('rte:','rte')
-    for entry in XML.ElementFromString(feed, True).xpath("//feed/entry"):
+    feed = (HTTP.Request(pageurl).content).encode("Latin1","ignore").replace('media:','media').replace('rte:','rte')
+    for entry in HTML.ElementFromString(feed).xpath("//feed/entry"):
       title = entry.xpath("title")[0].text
       desc = entry.xpath("content")[0].text
       duration = entry.xpath("rteduration")[0].get('ms')
       thumb = entry.xpath("mediathumbnail")[0].get('url')
-      link = entry.xpath("link[@rel='alternate']")[0].get('href') + geo_code
+      link = entry.xpath("link[@rel='alternate']")[0].get('href') + Dict['geo_code']
 
       dir.Append(WebVideoItem(url=link,title=title,summary=desc,thumb=thumb,duration=duration))
 
