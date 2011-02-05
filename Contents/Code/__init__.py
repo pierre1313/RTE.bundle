@@ -92,7 +92,13 @@ def AZSubMenu (sender):
     dir = MediaContainer(title2="A to Z", viewGroup="List")
 
     for entry in XML.ElementFromURL('http://dj.rte.ie/vodfeeds/feedgenerator/azlist/', True).xpath("//feed/entry"):
-        character = entry.xpath("title")[0].text
+        if entry.xpath("title")[0].text == None:
+    		continue
+    		#Log("Empty", debugOnly=True, encoding=None)
+
+    	else:
+    		character = entry.xpath("title")[0].text
+       
         dir.Append(Function(DirectoryItem(RSS_parser,character),pageurl = FEEDBASE + "az/?id="+character))
     return dir
 
