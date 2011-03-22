@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site site="http://www.rte.ie/player.*international"
-plugin="http://www.rte.ie/player/app/RTE_VOD_14.swf"
+plugin="http://www.rte.ie/player/app/.*.swf"
 initialState="init"
 version="1.0">
 
