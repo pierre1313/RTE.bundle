@@ -87,7 +87,7 @@ def CategoriesSubMenu (sender):
 def AZSubMenu (sender):
     dir = MediaContainer(title2="A to Z", viewGroup="List")
 
-    for entry in HTML.ElementFromURL(FEEDBASE+'azlist/').xpath("//feed/entry"):
+    for entry in HTML.ElementFromURL(FEEDBASE+'azlist/').xpath("//entry"):
       if entry.xpath("title")[0].text == None:
         continue
       else:
@@ -99,7 +99,7 @@ def RSS_parser(sender, pageurl , replaceParent=False):
     dir = MediaContainer(title2=sender.itemTitle, viewGroup="InfoList", replaceParent=replaceParent)
 
     feed = (HTTP.Request(pageurl).content).encode("Latin1","ignore").replace('media:','media').replace('rte:','rte')
-    for entry in HTML.ElementFromString(feed).xpath("//feed/entry"):
+    for entry in HTML.ElementFromString(feed).xpath("//entry"):
       title = entry.xpath("title")[0].text
       desc = entry.xpath("content")[0].text
       duration = entry.xpath("rteduration")[0].get('ms')
